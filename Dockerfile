@@ -28,6 +28,8 @@ RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/framework/cache /var/
 RUN chown -R unit:unit /var/www/html/storage bootstrap/cache && chmod -R 775 /var/www/html/storage
 
 COPY . .
+COPY ./database/migrations/ /var/www/html/database/migrations/
+COPY ./database/seeders/ /var/www/html/database/seeders/
 
 RUN chown -R unit:unit storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
 

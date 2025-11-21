@@ -36,11 +36,16 @@ FROM node:20-alpine AS node-stage
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json package-lock.json ./
+# Copy package files (package-lock.json is optional)
+COPY package.json ./
+COPY package-lock*.json ./
 
-# Install npm dependencies
-RUN npm ci --prefer-offline --no-audit
+# Install npm dependencies (use npm ci if lock file exists, otherwise npm install)
+RUN if [ -f package-lock.json ]; then \
+        npm ci --prefer-offline --no-audit; \
+    else \
+        npm install --prefer-offline --no-audit; \
+    fi
 
 # Copy application files needed for build
 COPY . .
@@ -210,8 +215,20 @@ COPY --from=composer-stage --chown=www-data:www-data /app /var/www/html
 # Copy built assets from node stage
 COPY --from=node-stage --chown=www-data:www-data /app/public/build /var/www/html/public/build
 
-# Copy environment file (will be overridden by Coolify)
-COPY --chown=www-data:www-data .env.example /var/www/html/.env
+# Create .env file from .env.example if it exists, otherwise create a minimal .env
+RUN if [ -f .env.example ]; then \
+        cp .env.example /var/www/html/.env; \
+    else \
+        echo "APP_NAME=Laravel" > /var/www/html/.env; \
+        echo "APP_ENV=production" >> /var/www/html/.env; \
+        echo "APP_KEY=" >> /var/www/html/.env; \
+        echo "APP_DEBUG=false" >> /var/www/html/.env; \
+        echo "APP_URL=http://localhost" >> /var/www/html/.env; \
+        echo "" >> /var/www/html/.env; \
+        echo "DB_CONNECTION=sqlite" >> /var/www/html/.env; \
+        echo "DB_DATABASE=/var/www/html/database/database.sqlite" >> /var/www/html/.env; \
+    fi \
+    && chown www-data:www-data /var/www/html/.env
 
 # Create necessary directories and set permissions
 RUN mkdir -p \

@@ -7,7 +7,7 @@
 # ============================================
 # Stage 1: Composer Dependencies
 # ============================================
-FROM composer:2 AS composer-stage
+FROM composer:2.8 AS composer-stage
 
 WORKDIR /app
 

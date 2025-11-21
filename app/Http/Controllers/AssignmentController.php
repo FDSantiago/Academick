@@ -9,7 +9,7 @@ use App\Models\Course;
 
 class AssignmentController extends Controller
 {
-    public function index(Request $request)
+    public function indexx(Request $request)
     {
         $user = $request->user();
         $userRoles = $user->roles()->pluck('name')->toArray();

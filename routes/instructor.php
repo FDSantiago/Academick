@@ -15,7 +15,7 @@ Route::middleware(['auth', 'verified', 'role:instructor'])->prefix('instructor')
 
     Route::get('/courses', function () {
         return Inertia::render('instructor/courses/index');
-    })->name('courses.index');
+    });
 
     Route::get('/assignments', function () {
         $user = Auth::user();
@@ -48,7 +48,7 @@ Route::middleware(['auth', 'verified', 'role:instructor'])->prefix('instructor')
             'assignments' => $assignments,
             'courses' => $courses
         ]);
-    })->name('assignments.index');
+    });
 
     Route::get('/assignments/create', function () {
         $user = Auth::user();
@@ -67,7 +67,7 @@ Route::middleware(['auth', 'verified', 'role:instructor'])->prefix('instructor')
 
     Route::get('/announcements', function () {
         return Inertia::render('instructor/announcements/index');
-    })->name('announcements.index');
+    });
 
     Route::get('/announcements/create', function () {
         $user = Auth::user();
@@ -88,7 +88,7 @@ Route::middleware(['auth', 'verified', 'role:instructor'])->prefix('instructor')
         return Inertia::render('instructor/quizzes/index', [
             'quizzes' => \App\Models\Quiz::all()
         ]);
-    })->name('quizzes.index');
+    });
 
     Route::get('/quizzes/create', function () {
         $user = Auth::user();
@@ -134,7 +134,7 @@ Route::middleware(['auth', 'verified', 'role:instructor'])->prefix('instructor')
             'discussions' => $discussions,
             'courses' => $courses
         ]);
-    })->name('discussions.index');
+    });
 
     Route::get('/discussions/create', function () {
         $user = Auth::user();
@@ -153,5 +153,5 @@ Route::middleware(['auth', 'verified', 'role:instructor'])->prefix('instructor')
 
     // Route::get('/grading', function () {
     //     return Inertia::render('instructor/grading/index');
-    // })->name('grading.index');
+    // });
 });

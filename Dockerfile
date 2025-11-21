@@ -37,6 +37,12 @@ RUN composer install --no-dev --prefer-dist --optimize-autoloader --no-interacti
 RUN npm ci
 RUN npm run build:ssr
 
+RUN touch database/database.sqlite
+RUN chown -R unit:unit /var/www/html/database
+
+RUN php artisan migrate:fresh --force
+RUN php artisan db:seed
+
 COPY unit.json /docker-entrypoint.d/unit.json
 
 EXPOSE 8000

@@ -22,7 +22,6 @@ return new class extends Migration
                 $table->timestamps();
 
                 // Indexes for performance
-                $table->index(['content_type', 'content_id']);
                 $table->index(['grantee_type', 'grantee_id']);
                 $table->index(['permission_type']);
 

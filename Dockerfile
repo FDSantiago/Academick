@@ -18,7 +18,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html
 
-RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/framework/cache /var/www/html/bootstrap/framework/sessions /var/www/html/bootstrap/framework/views /var/www/html/bootstrap/cache
 
 RUN chown -R unit:unit /var/www/html/storage bootstrap/cache && chmod -R 775 /var/www/html/storage
 
